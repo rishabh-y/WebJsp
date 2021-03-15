@@ -1,0 +1,76 @@
+ <%@ page  language = "java" import="java.sql.*,java.util.*,java.io.*" session="true" %>
+
+---------------------------------------------------------------------------------------------
+String po=request.getParameter("po"); 
+if (po==null){po="";};
+
+----------------------------------------------------------------------------------
+out.println("str_v "+str_v);
+
+--------------------------------------------------------------------------------------------
+
+
+try
+   {
+
+
+conn.close();
+} 
+catch	(SQLException e)
+              {
+               System.err.println("SQLException :"+e.getMessage());
+              }
+     
+
+---------------------------------------------------------------------------------------------
+
+
+String st31 = "select decode(sex,'M','Mr ','')||name name from employees  where plno='"+plno+"'"; 
+Statement p31 = conn.createStatement();
+ResultSet rs31 = p31.executeQuery(st31);
+ResultSetMetaData rsmd31 =  rs31.getMetaData();
+int numcols31 = rsmd31.getColumnCount();
+
+---------------------------------------------------------------------------
+
+<TR>
+		<%
+		for(int i=1 ;i <= numcols31 ; i++) {
+		%>
+		<th><%= rsmd31.getColumnLabel(i) %>	</th>
+		<%}%>
+	</TR>
+
+-------------------------------------------------------------------------------------------------------
+
+Statement stmt0 = conn1.createStatement();
+	ResultSet rs0 = stmt0.executeQuery("select count(*) ctr from test_table where to_char (plno) ='"+plno+"' "); 
+   	  while ( rs0.next())  {                                                
+       		 emp_registered = rs0.getString("ctr");
+          }                                                
+	rs0.close();
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+<% 
+while ( rs31.next() ) {  %>
+        <TR>
+	<% for ( int i =1 ; i<= numcols31; i++)   {%> 
+		
+		<TD align="center" bgcolor="white"><%= rs31.getString(i)%> 
+		</TD>
+	
+		<%}%>	
+	</TR>
+<%}
+rs31.close();
+%>
+
+--------------------------------------------------------------------------------------------
+
+<script>
+alert("Your session has expired. Please login to continue.");
+window.history.go(-1);
+</script>
