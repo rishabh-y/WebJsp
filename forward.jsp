@@ -61,6 +61,7 @@
 		String db_name = request.getParameter("db_name");
 		String tb_name = request.getParameter("tb_name");
 		Connection con=null;
+		Statement stmt=null;
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+db_name,user,pswd);
@@ -80,7 +81,10 @@
 			out.println(e);
 		}
 		int i;
-		Statement stmt = con.createStatement();
+
+		
+		 stmt = con.createStatement();
+		 out.println(stmt);
 		ResultSet rs = stmt.executeQuery("select * from "+tb_name);
 		ResultSetMetaData rsmd = (ResultSetMetaData)rs.getMetaData();
 		int colCount = rsmd.getColumnCount();%>
@@ -108,6 +112,8 @@
 		 </table>
 		
 		 	<button onclick="document.location='index.html'" >Back</button>
+		 	<button onclick="document.location='graph.jsp'" >Show Graph</button>
+		 	
 		 
 		
 </body>
